@@ -2,13 +2,15 @@ var r;
 
 module.exports = function rand(len) {
   if (!r)
-    r = new Rand();
+    r = new Rand(null);
 
   return r.generate(len);
 };
 
-function Rand() {
+function Rand(randy) {
+  this.randy = randy;
 }
+module.exports.Rand = Rand;
 
 Rand.prototype.generate = function generate(len) {
   return this._rand(len);
@@ -36,11 +38,21 @@ if (typeof window === 'object') {
     };
   }
 } else {
-  // Node.js
-  var crypto;
+  // Node.js or Web worker
+  try {
+    var crypto = require('cry' + 'pto');
+  } catch (e) {
+    // Emulate crypto API using randy
+    var crypto = {
+      randomBytes: function randomBytes(n) {
+        var res = new Uint8Array(n);
+        for (var i = 0; i < res.length; i++)
+          res[i] = this.randy.getRandBits(8);
+        return res;
+      }
+    };
+  }
   Rand.prototype._rand = function _rand(n) {
-    if (!crypto)
-      crypto = require('cry' + 'pto');
     return crypto.randomBytes(n);
   };
 }

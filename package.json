@@ -24,5 +24,8 @@
   "homepage": "https://github.com/indutny/brorand",
   "devDependencies": {
     "mocha": "^2.0.1"
+  },
+  "optionalDependencies": {
+    "randy.js": "^1.5.1"
   }
 }
