@@ -43,14 +43,13 @@ if (typeof window === 'object') {
     var crypto = require('cry' + 'pto');
   } catch (e) {
     // Emulate crypto API using randy
-    var crypto = {
-      randomBytes: function randomBytes(n) {
-        var res = new Uint8Array(n);
-        for (var i = 0; i < res.length; i++)
-          res[i] = this.rand.getByte();
-        return res;
-      }
+    Rand.prototype._rand = function _rand(n) {
+      var res = new Uint8Array(n);
+      for (var i = 0; i < res.length; i++)
+        res[i] = this.rand.getByte();
+      return res;
     };
+    return;
   }
   Rand.prototype._rand = function _rand(n) {
     return crypto.randomBytes(n);
