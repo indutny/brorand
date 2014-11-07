@@ -7,8 +7,8 @@ module.exports = function rand(len) {
   return r.generate(len);
 };
 
-function Rand(randy) {
-  this.randy = randy;
+function Rand(rand) {
+  this.rand = rand;
 }
 module.exports.Rand = Rand;
 
@@ -47,7 +47,7 @@ if (typeof window === 'object') {
       randomBytes: function randomBytes(n) {
         var res = new Uint8Array(n);
         for (var i = 0; i < res.length; i++)
-          res[i] = this.randy.getRandBits(8);
+          res[i] = this.rand.getByte();
         return res;
       }
     };
