@@ -41,6 +41,10 @@ if (typeof window === 'object') {
   // Node.js or Web worker
   try {
     var crypto = require('cry' + 'pto');
+
+    Rand.prototype._rand = function _rand(n) {
+      return crypto.randomBytes(n);
+    };
   } catch (e) {
     // Emulate crypto API using randy
     Rand.prototype._rand = function _rand(n) {
@@ -49,9 +53,5 @@ if (typeof window === 'object') {
         res[i] = this.rand.getByte();
       return res;
     };
-    return;
   }
-  Rand.prototype._rand = function _rand(n) {
-    return crypto.randomBytes(n);
-  };
 }
