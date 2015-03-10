@@ -3,6 +3,7 @@
   "version": "1.0.5",
   "description": "Random number generator for browsers and node.js",
   "main": "index.js",
+  "browser": "browser.js",
   "scripts": {
     "test": "mocha --reporter=spec test/**/*-test.js"
   },
