@@ -40,7 +40,8 @@ if (typeof window === 'object') {
 } else {
   // Node.js or Web worker
   try {
-    var crypto = require('cry' + 'pto');
+    var hiddenRequire = require;
+    var crypto = hiddenRequire('crypto');
 
     Rand.prototype._rand = function _rand(n) {
       return crypto.randomBytes(n);
