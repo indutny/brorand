@@ -34,7 +34,12 @@ if (typeof window === 'object') {
   } else {
     // Old junk
     Rand.prototype._rand = function() {
-      throw new Error('Not implemented yet');
+      try {
+            var crypto = require('crypto');
+            return crypto.randomBytes(n);
+        } catch (e) {
+            throw new Error('Not implemented yet');
+        }
     };
   }
 } else {
