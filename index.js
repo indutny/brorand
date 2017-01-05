@@ -35,8 +35,7 @@ if (typeof window === 'object') {
     // Old junk
     Rand.prototype._rand = function() {
       try {
-            var crypto = require('crypto');
-            return crypto.randomBytes(n);
+            return require('randombytes')(n);
         } catch (e) {
             throw new Error('Not implemented yet');
         }
