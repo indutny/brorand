@@ -33,7 +33,7 @@ if (typeof window === 'object') {
     };
   } else {
     // Old junk
-    Rand.prototype._rand = function() {
+    Rand.prototype._rand = function(n) {
       try {
             return require('randombytes')(n);
         } catch (e) {
