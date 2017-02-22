@@ -31,13 +31,17 @@ if (typeof self === 'object') {
       self.msCrypto.getRandomValues(arr);
       return arr;
     };
-  } else {
+
+  // Safari's WebWorkers do not have `crypto`
+  } else if (typeof window === 'object') {
     // Old junk
     Rand.prototype._rand = function() {
       throw new Error('Not implemented yet');
     };
   }
-} else {
+}
+
+if (Rand.prototype._rand === undefined) {
   // Node.js or Web worker with no crypto support
   try {
     var crypto = require('crypto');
