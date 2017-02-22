@@ -18,6 +18,9 @@ Rand.prototype.generate = function generate(len) {
 
 // Emulate crypto API using randy
 Rand.prototype._rand = function _rand(n) {
+  if (this.rand.getBytes)
+    return this.rand.getBytes(n);
+
   var res = new Uint8Array(n);
   for (var i = 0; i < res.length; i++)
     res[i] = this.rand.getByte();
