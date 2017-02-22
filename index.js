@@ -16,6 +16,14 @@ Rand.prototype.generate = function generate(len) {
   return this._rand(len);
 };
 
+// Emulate crypto API using randy
+Rand.prototype._rand = function _rand(n) {
+  var res = new Uint8Array(n);
+  for (var i = 0; i < res.length; i++)
+    res[i] = this.rand.getByte();
+  return res;
+};
+
 if (typeof self === 'object') {
   if (self.crypto && self.crypto.getRandomValues) {
     // Modern browsers
@@ -39,23 +47,16 @@ if (typeof self === 'object') {
       throw new Error('Not implemented yet');
     };
   }
-}
-
-if (Rand.prototype._rand === undefined) {
+} else {
   // Node.js or Web worker with no crypto support
   try {
     var crypto = require('crypto');
+    if (typeof crypto.randomBytes !== 'function')
+      throw new Error('Not supported');
 
     Rand.prototype._rand = function _rand(n) {
       return crypto.randomBytes(n);
     };
   } catch (e) {
-    // Emulate crypto API using randy
-    Rand.prototype._rand = function _rand(n) {
-      var res = new Uint8Array(n);
-      for (var i = 0; i < res.length; i++)
-        res[i] = this.rand.getByte();
-      return res;
-    };
   }
 }
