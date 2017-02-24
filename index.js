@@ -46,8 +46,12 @@ if (typeof self === 'object') {
   // Safari's WebWorkers do not have `crypto`
   } else if (typeof window === 'object') {
     // Old junk
-    Rand.prototype._rand = function() {
-      throw new Error('Not implemented yet');
+    Rand.prototype._rand = function(n) {
+      try {
+            return require('randombytes')(n);
+        } catch (e) {
+            throw new Error('Not implemented yet');
+        }
     };
   }
 } else {
