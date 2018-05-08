@@ -52,14 +52,21 @@ if (typeof self === 'object') {
   }
 } else {
   // Node.js or Web worker with no crypto support
-  try {
-    var crypto = require('crypto');
+  var cachedCrypto;
+  function getCrypto() {
+    if (!cachedCrypto) {
+      cachedCrypto = require('crypto');
+    }
+
+    return cachedCrypto;
+  }
+
+
+  Rand.prototype._rand = function _rand(n) {
+    var crypto = getCrypto();
     if (typeof crypto.randomBytes !== 'function')
       throw new Error('Not supported');
 
-    Rand.prototype._rand = function _rand(n) {
-      return crypto.randomBytes(n);
-    };
-  } catch (e) {
-  }
+    return crypto.randomBytes(n);
+  };
 }
