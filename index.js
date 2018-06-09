@@ -53,7 +53,7 @@ if (typeof self === 'object') {
 } else {
   // Node.js or Web worker with no crypto support
   try {
-    var crypto = require('crypto');
+    var crypto = eval('require')('crypto');
     if (typeof crypto.randomBytes !== 'function')
       throw new Error('Not supported');
 
